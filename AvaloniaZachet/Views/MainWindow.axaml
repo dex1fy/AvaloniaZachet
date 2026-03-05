@@ -10,28 +10,79 @@
         Title="AvaloniaZachet"
         xmlns:components="clr-namespace:AvaloniaZachet.Views.Components">
 
+    <Window.Resources>
+        <Color x:Key="AppWhite">#FFFFFF</Color>
+        <Color x:Key="AppLight">#D2DFFF</Color>
+        <Color x:Key="AppAccent">#355CBD</Color>
+        <SolidColorBrush x:Key="AppWhiteBrush" Color="{StaticResource AppWhite}"/>
+        <SolidColorBrush x:Key="AppLightBrush" Color="{StaticResource AppLight}"/>
+        <SolidColorBrush x:Key="AppAccentBrush" Color="{StaticResource AppAccent}"/>
+    </Window.Resources>
+
+    <Window.Styles>
+        <Style Selector="TextBox, ComboBox">
+            <Setter Property="Background" Value="{StaticResource AppWhiteBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AppAccentBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource AppAccentBrush}"/>
+        </Style>
+        <Style Selector="ComboBoxItem">
+            <Setter Property="Foreground" Value="{StaticResource AppAccentBrush}"/>
+        </Style>
+        <Style Selector="TextBlock.accent">
+            <Setter Property="Foreground" Value="{StaticResource AppAccentBrush}"/>
+        </Style>
+    </Window.Styles>
+
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <ScrollViewer Background="#FFFFFF" Padding="12">
-        <StackPanel>
-            <ItemsControl ItemsSource="{Binding Products}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Spacing="8"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <components:ProductsCard/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <Border Height="48"/>
-        </StackPanel>
-    </ScrollViewer>
+    <Grid RowDefinitions="Auto,*" Background="{StaticResource AppWhiteBrush}">
+        <Border Grid.Row="0"
+                Background="{StaticResource AppLightBrush}"
+                BorderBrush="{StaticResource AppAccentBrush}"
+                BorderThickness="1"
+                CornerRadius="6"
+                Margin="12"
+                Padding="12">
+            <StackPanel Spacing="8">
+                <TextBox Watermark="Поиск по наименованию"
+                         Text="{Binding SearchText}"/>
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                <ComboBox Width="220"
+                          ItemsSource="{Binding ProductTypes}"
+                          SelectedItem="{Binding SelectedProductType}"/>
+                <ComboBox Width="220"
+                          ItemsSource="{Binding SortOptions}"
+                          SelectedItem="{Binding SelectedSortOption}"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer Grid.Row="1" Padding="12">
+            <StackPanel>
+                <TextBlock Text="Ничего не найдено"
+                           IsVisible="{Binding HasNoResults}"
+                           Foreground="#B00020"
+                           FontWeight="SemiBold"
+                           Margin="0 0 0 8"/>
+                <ItemsControl ItemsSource="{Binding Products}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Spacing="8"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <components:ProductsCard/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Border Height="48"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
     
 </Window>
