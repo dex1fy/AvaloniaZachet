@@ -1,0 +1,6 @@
+# BASE GITIGNORE
+.vs/
+.idea/
+.vscode/
+bin/
+obj/
