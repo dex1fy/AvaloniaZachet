@@ -146,6 +146,7 @@ public sealed class MainWindowViewModel : ViewModelBase
 
 
             // Сбрасываем фильтры к значениям по умолчанию
+            SelectedProductType = null;
             SelectedProductType = "Все";
             SelectedSortOption = "Без сортировки";
 
